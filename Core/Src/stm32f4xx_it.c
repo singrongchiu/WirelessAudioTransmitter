@@ -216,19 +216,31 @@ void TIM1_UP_TIM10_IRQHandler(void)
   /* USER CODE BEGIN TIM1_UP_TIM10_IRQn 0 */
   bool oneifbitone = is_bit_set_uint64(message, message_index);
   if (oneifbitone && lastbitset != 1) {
-//    HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
 	// outputting 1
     HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_1);
-	htim3.Init.Period = 1600;
+//	htim3.Init.Period = 1600;
+    __HAL_TIM_SET_AUTORELOAD(&htim3, 1600);
+    __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 700);
     HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+
+    lastbitset = 1;
   } else if (!oneifbitone && lastbitset != 0) {
 	// outputting 0
-//    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
-//    HAL_TIM_PWM_Stop(&htim4, TIM_CHANNEL_1);
 
     HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_1);
-	htim3.Init.Period = 3200;
+//	htim3.Init.Period = 3200;
+    __HAL_TIM_SET_AUTORELOAD(&htim3, 3200);
+    __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 1400);
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+
+	lastbitset = 0;
+  }
+  message_index++;
+  if (message_index == MSG_LENGTH) {
+//    HAL_TIM_Base_Stop(&htim1);  // This stops the timer counting
+//	  HAL_TIM_Base_Stop(&htim3);  // This stops the timer counting
+//	  HAL_TIM_Base_Stop(&htim4);  // This stops the timer counting
+	  message_index = 0;
   }
   /* USER CODE END TIM1_UP_TIM10_IRQn 0 */
   HAL_TIM_IRQHandler(&htim1);

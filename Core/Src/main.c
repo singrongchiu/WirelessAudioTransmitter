@@ -47,7 +47,7 @@ TIM_HandleTypeDef htim4;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-uint64_t message = 0xBBBBBBBB;
+uint64_t message = 0xAAAAAAAA;
 uint8_t message_index;
 /* USER CODE END PV */
 
@@ -261,7 +261,8 @@ static void MX_TIM3_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN TIM3_Init 2 */
-
+  HAL_NVIC_SetPriority(TIM3_IRQn, 1, 1);
+  HAL_NVIC_EnableIRQ(TIM3_IRQn);
   /* USER CODE END TIM3_Init 2 */
   HAL_TIM_MspPostInit(&htim3);
 
