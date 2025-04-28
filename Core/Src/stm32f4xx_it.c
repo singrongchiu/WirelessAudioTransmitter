@@ -237,10 +237,10 @@ void TIM1_UP_TIM10_IRQHandler(void)
   }
   message_index++;
   if (message_index == MSG_LENGTH) {
-//    HAL_TIM_Base_Stop(&htim1);  // This stops the timer counting
-//	  HAL_TIM_Base_Stop(&htim3);  // This stops the timer counting
-//	  HAL_TIM_Base_Stop(&htim4);  // This stops the timer counting
-	  message_index = 0;
+    HAL_TIM_Base_Stop(&htim1);  // This stops the timer counting
+    HAL_TIM_Base_Stop(&htim3);  // This stops the timer counting
+    HAL_TIM_Base_Stop(&htim4);  // This stops the timer counting
+//	  message_index = 0;
   }
   /* USER CODE END TIM1_UP_TIM10_IRQn 0 */
   HAL_TIM_IRQHandler(&htim1);
